@@ -1,0 +1,19 @@
+on:
+  push:
+    branches: [main]
+  pull_request:
+name: Build Flatpak
+jobs:
+  flatpak:
+    name: "Flatpak"
+    runs-on: ubuntu-latest
+    container:
+      image: bilelmoussaoui/flatpak-github-actions:gnome-44
+      options: --privileged
+    steps:
+    - uses: actions/checkout@v4
+    - uses: flatpak/flatpak-github-actions/flatpak-builder@v6
+      with:
+        bundle: io.github.ryanabx.libflatpak.Base.flatpak
+        manifest-path: io.github.ryanabx.libflatpak.Base.json
+        cache-key: flatpak-builder-${{ github.sha }}
